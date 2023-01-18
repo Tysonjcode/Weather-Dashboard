@@ -21,7 +21,7 @@ $("#search-button").on("click", function(event) {
 
 function searchWeather(searchInput) {
     $.ajax({
-        url: "https://api.openweathermap.org/data/2.5/weather?q=" + searchInput + "&appid=8a0b187f58134a2e51bff5ae31b7377e&units=imperial",
+        url: "https://api.openweathermap.org/data/2.5/weather?q=" + searchInput + "&appid=8a0b187f58134a2e51bff5ae31b7377e&units=metric",
         method: "GET"
     }).then(function (apiResponse) {
         console.log("todayForecastData", apiResponse);
@@ -52,7 +52,7 @@ function searchWeather(searchInput) {
 
 function searchForecast(searchInput) {
     $.ajax({
-        url: "https://api.openweathermap.org/data/2.5/forecast?q=" + searchInput + "&appid=8a0b187f58134a2e51bff5ae31b7377e&units=imperial",
+        url: "https://api.openweathermap.org/data/2.5/forecast?q=" + searchInput + "&appid=8a0b187f58134a2e51bff5ae31b7377e&units=metric",
         method: "GET"
     }).then(function (data) {
         console.log("forecastData", data);
@@ -80,7 +80,7 @@ function searchForecast(searchInput) {
 
 function searchUvIndex(latitude, longitude) {
     $.ajax({
-        url: 'https://api.openweathermap.org/data/2.5/onecall?lat=' + latitude + '&lon=' + longitude + '&exclude=hourly,daily&appid=8a0b187f58134a2e51bff5ae31b7377e&units=imperial',
+        url: 'https://api.openweathermap.org/data/2.5/onecall?lat=' + latitude + '&lon=' + longitude + '&exclude=hourly,daily&appid=8a0b187f58134a2e51bff5ae31b7377e&units=metric',
         method: "GET"
     }).then(function (uvResponse) {
         console.log("todayUvIndex", uvResponse);
