@@ -14,3 +14,15 @@
     border: 1px solid rgba(0,0,0,.125);
     padding: 1.5rem;
 }
+
+.safe {
+    background-color: green;
+}
+
+.questionable {
+    background-color: yellow;
+}
+
+.dangerous {
+    background-color: red;
+}
