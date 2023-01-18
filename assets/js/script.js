@@ -49,3 +49,70 @@ function searchWeather(searchInput) {
 
     })
 }
+
+function searchForecast(searchInput) {
+    $.ajax({
+        url: "https://api.openweathermap.org/data/2.5/forecast?q=" + searchInput + "&appid=8a0b187f58134a2e51bff5ae31b7377e&units=imperial",
+        method: "GET"
+    }).then(function (data) {
+        console.log("forecastData", data);
+    
+    $("#forecast").empty();
+
+    for (var i=0; i<data.list.length; i++) {
+        if (data.list[i].dt_txt.indexOf("09:00:00") !== -1) {
+            var cardCity = $("<h5>").text(data.city.name + " | " + new Date (data.list[i].dt_txt));
+            var forecastTemp = $("<p>").text(data.list[i].main.temp + "\u00B0F");
+            var forecastHumidity = $("<p>").text(data.list[i].main.humidity + "%");
+
+
+
+            $("#forecast").append(cardCity, forecastTemp, forecastHumidity);
+
+
+
+        }
+    }
+
+    })
+}
+
+
+function searchUvIndex(latitude, longitude) {
+    $.ajax({
+        url: 'https://api.openweathermap.org/data/2.5/onecall?lat=' + latitude + '&lon=' + longitude + '&exclude=hourly,daily&appid=8a0b187f58134a2e51bff5ae31b7377e&units=imperial',
+        method: "GET"
+    }).then(function (uvResponse) {
+        console.log("todayUvIndex", uvResponse);
+    
+        var uvCard = $("<h5>").text("UV Index: ");
+
+        var uvStatus = $("<div>").addClass("btn btn-md").text(uvResponse.current.uvi)
+
+        if (uvResponse.current.uvi <= 3) {
+            uvStatus.addClass("safe");
+        } else if (uvResponse.current.uvi < 7 && uvResponse.current.uvi > 3) {
+            uvStatus.addClass("questionable");
+        } else {
+            uvStatus.addClass("dangerous");
+        }
+
+        $("#today-weather").append(uvStatus.append(uvCard));
+    });
+}   
+
+
+var searchHistory = JSON.parse(window.localStorage.getItem("searchhistory")) || [];
+
+function makeListItem (city) {
+    var listItem = $("<li>").text(city);
+    $(".search-history").append(listItem);
+}
+
+$(".search-history").on("click", "li", function() {
+    searchWeather($(this).text())
+})
+
+for (var i=0; i<searchHistory.length; i++) {
+    makeListItem(searchHistory[i]);
+}
